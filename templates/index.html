@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TEC Mapping Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eaeaea; /* Light grey background */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: white; /* Card remains white */
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Shadow effect */
+            border-radius: 12px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        input[type="date"] {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #145aa3;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .graphs {
+            margin-top: 40px;
+        }
+        .graph-block {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .graph-block img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .graph-block h3 {
+            color: #444;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TEC Mapping Dashboard</h1>
+        <form action="/generate" method="POST">
+            <input type="date" name="selected_date" value="{{ selected_date }}">
+            <button type="submit">Generate Graphs</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="graphs">
+            {% if hourly_graph %}
+                <div class="graph-block">
+                    <h3>Hourly Variation</h3>
+                    <img src="{{ url_for('static', filename=hourly_graph) }}" alt="Hourly TEC">
+                </div>
+            {% endif %}
+            {% if weekly_graph %}
+                <div class="graph-block">
+                    <h3>Weekly Variation</h3>
+                    <img src="{{ url_for('static', filename=weekly_graph) }}" alt="Weekly TEC">
+                </div>
+            {% endif %}
+            {% if fortnight_graph %}
+                <div class="graph-block">
+                    <h3>15-Day Variation</h3>
+                    <img src="{{ url_for('static', filename=fortnight_graph) }}" alt="Fortnight TEC">
+                </div>
+            {% endif %}
+            {% if monthly_graph %}
+                <div class="graph-block">
+                    <h3>Monthly Variation</h3>
+                    <img src="{{ url_for('static', filename=monthly_graph) }}" alt="Monthly TEC">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
